@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is conducted as part of a module at Vietnamese-German University under the supervision of Dr.-Ing. Quang Huan Dong (huan.dq@vgu.edu.vn). The objective is to adapt the Pick-and-Place tutorial from the Unity Robotics Hub for a UR10e robotic arm equipped with an OnRobot RG2 gripper. The system automates the task of picking an object from within a simulated 3D printer and placing it at a predefined target location in a Unity-based environment. Motion planning is performed using the Stochastic Trajectory Optimization for Motion Planning (STOMP) algorithm to generate smooth and collision-free trajectories.
+This project is conducted as part of a module at [Vietnamese-German University](https://vgu.edu.vn/)under the supervision of Dr.-Ing. Quang Huan Dong (huan.dq@vgu.edu.vn). The objective is to adapt the Pick-and-Place tutorial from the [Unity Robotics Hub](https://github.com/Unity-Technologies/Unity-Robotics-Hub/tree/main/tutorials/pick_and_place) for a UR10e robotic arm equipped with an OnRobot RG2 gripper. The system automates the task of picking an object from within a simulated 3D printer and placing it at a predefined target location in a Unity-based environment. Motion planning is performed using the Stochastic Trajectory Optimization for Motion Planning (STOMP) algorithm to generate smooth and collision-free trajectories.
 
 ## Table of Contents
 
@@ -34,7 +34,7 @@ Ensure that the following software and resources are installed prior to setting 
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/Trung2204/ur10e_rg2_PickAndPlace.git
+git clone https://github.com/QNCapital/Report-Project.git
 cd ur10e_rg2_PickAndPlace
 ```
 
@@ -70,7 +70,7 @@ Confirm that no errors are present. The ROS workspace is now properly configured
 ### Configure Unity Project
 
 1. Launch Unity Hub and navigate to the "Projects" tab, Click the "Add" button, and select the UnityProject directory within the cloned repository (`/PATH/TO/ur10e_rg2_PickAndPlace/UnityProject/`). This action will register the project in Unity Hub.
-   ![](Image/hub_addproject.png)
+   ![](Image/unityhub.png)
 
 2. Click the newly added project to open it.
 
