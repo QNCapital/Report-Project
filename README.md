@@ -75,8 +75,7 @@ Confirm that no errors are present. The ROS workspace is now properly configured
 2. Click the newly added project to open it.
 
 3. In the Unity Editor, ensure that the correct scene is loaded. If it is not already open, navigate to `Assets/Scenes/EmptyScene` and double-click to open it.
-
-   ![](Image/0_unity.png)
+   ![](Image/0-unity.png)
 
 4. Import the Sketchfab plugin by dragging and dropping the [SketchfabForUnity-v1.2.1.unitypackage](https://github.com/sketchfab/unity-plugin/releases) file to the Asset panel.
 
@@ -85,8 +84,7 @@ Follow the on-screen instructions to complete the Sketchfab plugin setup.
 5. Generate the required MoveIt message definitions (RobotTrajectory and CollisionObject). These message files define the robot trajectories and collision objects used in ROS message communication.
 
 From the Unity menu bar, select `Robotics -> Generate ROS Messages...` from the top menu bar.
-
-   ![](Image/2_menu.png)
+   ![](Image/1-unity.png)
 
    In the ROS Message Browser window, click `Browse` next to the ROS message path. Navigate to and select the ROS directory of this cloned repository (`Unity-Robotics-Hub/tutorials/pick_and_place/ROS/`). This window will populate with all msg and srv files found in this directory.
 
