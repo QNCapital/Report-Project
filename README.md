@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a part of a module at [Vietnamese-German University](https://vgu.edu.vn/), instructed by Dr.-Ing. Quang Huan Dong (huan.dq@vgu.edu.vn). The goal of this project is to adapt the pick and place tutorial from the [Unity Robotics Hub](https://github.com/Unity-Technologies/Unity-Robotics-Hub/tree/main/tutorials/pick_and_place) for the UR10e robot arm integrated with the OnRobot RG2 gripper. The objective is to automate the process of picking an object from inside a 3D printer and placing it at a desired location in a simulated environment using Unity. The project utilizes the Stochastic Trajectory Optimization for Motion Planning (STOMP) planner for motion planning.
+This project is conducted as part of a module at Vietnamese-German University under the supervision of Dr.-Ing. Quang Huan Dong (huan.dq@vgu.edu.vn). The objective is to adapt the Pick-and-Place tutorial from the Unity Robotics Hub for a UR10e robotic arm equipped with an OnRobot RG2 gripper. The system automates the task of picking an object from within a simulated 3D printer and placing it at a predefined target location in a Unity-based environment. Motion planning is performed using the Stochastic Trajectory Optimization for Motion Planning (STOMP) algorithm to generate smooth and collision-free trajectories.
 
 ## Table of Contents
 
@@ -18,11 +18,11 @@ This project is a part of a module at [Vietnamese-German University](https://vgu
 
 ## Installation
 
-To set up this project, follow these steps:
+The steps below detail the installation and configuration process for the project.
 
 ### Prerequisites
 
-Ensure you have the following software installed:
+Ensure that the following software and resources are installed prior to setting up the project:
 
 - [ROS Noetic](https://wiki.ros.org/noetic/Installation/Ubuntu)
 - [MoveIt](https://moveit.github.io/moveit_tutorials/doc/getting_started/getting_started.html) 
@@ -39,9 +39,10 @@ cd ur10e_rg2_PickAndPlace
 ```
 
 ### Set Up ROS Workspace
-1. Ensure that you have [ROS installed](https://wiki.ros.org/noetic/Installation/Ubuntu)
-2. Ensure that you have [Moveit and tools like catkin and wstool installed](https://moveit.github.io/moveit_tutorials/doc/getting_started/getting_started.html)
-3. The provided files require the following packages to be installed. ROS Noetic users should run the following commands if the packages are not already present:
+1. Verify the availability of [ROS installed](https://wiki.ros.org/noetic/Installation/Ubuntu)
+2. Verify the availability of [Moveit and tools like catkin and wstool installed](https://moveit.github.io/moveit_tutorials/doc/getting_started/getting_started.html)
+3. The provided files depend on additional ROS packages.
+   If you are using ROS Noetic and these packages are not already installed, run the following commands:
 
 ```bash
 sudo apt-get update && sudo apt-get upgrade
@@ -64,27 +65,26 @@ catkin build
 source devel/setup.bash
 ```
 
-Ensure there are no errors. The ROS workspace is now ready to accept commands!
+Confirm that no errors are present. The ROS workspace is now properly configured and ready to accept commands.
 
 ### Configure Unity Project
 
-1. Open Unity Hub and go to the "Projects" tab, click the "Add" button, and navigate to and select the UnityProject directory within this cloned repository (`/PATH/TO/ur10e_rg2_PickAndPlace/UnityProject/`) to add the project to your Hub.
-
+1. Launch Unity Hub and navigate to the "Projects" tab, Click the "Add" button, and select the UnityProject directory within the cloned repository (`/PATH/TO/ur10e_rg2_PickAndPlace/UnityProject/`). This action will register the project in Unity Hub.
    ![](Image/hub_addproject.png)
 
 2. Click the newly added project to open it.
 
-3. In the Unity Project window, double click to open the `Assets/Scenes/EmptyScene` scene if it is not already open.
+3. In the Unity Editor, ensure that the correct scene is loaded. If it is not already open, navigate to `Assets/Scenes/EmptyScene` and double-click to open it.
 
    ![](Image/0_unity.png)
 
-4. Drag and drop [SketchfabForUnity-v1.2.1.unitypackage](https://github.com/sketchfab/unity-plugin/releases) file to the Asset panel.
+4. Import the Sketchfab plugin by dragging and dropping the [SketchfabForUnity-v1.2.1.unitypackage](https://github.com/sketchfab/unity-plugin/releases) file to the Asset panel.
 
-   Follow the instructions to finish the setup of Sketchfab plugin for Unity.
+Follow the on-screen instructions to complete the Sketchfab plugin setup.
 
-5. Generate the MoveItMsg: RobotTrajectory, CollisionObject. These file describes the trajectory and collision contents that will be used in the sent and received messages.
+5. Generate the required MoveIt message definitions (RobotTrajectory and CollisionObject). These message files define the robot trajectories and collision objects used in ROS message communication.
 
-   Select `Robotics -> Generate ROS Messages...` from the top menu bar.
+From the Unity menu bar, select `Robotics -> Generate ROS Messages...` from the top menu bar.
 
    ![](Image/2_menu.png)
 
@@ -92,41 +92,46 @@ Ensure there are no errors. The ROS workspace is now ready to accept commands!
 
    ![](Image/2_browser.png)
 
-   > Note: If any of these ROS directories appear to be empty, you can run the command `git submodule update --init --recursive` to download the packages via Git submodules.
+   > Note: If any ROS directories are empty, initialize and update the required Git submodules by running: `git submodule update --init --recursive`.
 
-   Under `ROS/src/moveit_msgs/msg`, scroll to `RobotTrajectory.msg`, and click its `Build msg` button. The button text will change to "Rebuild msg" when it has finished building.
+   Under `ROS/src/moveit_msgs/msg`, identify `RobotTrajectory.msg`, and click its `Build msg` button. After the build process completes successfully, the button text will update to "Rebuild msg", confirming that the message has been generated.
 
    ![](Image/2_robottraj.png)
 
-6. Do the same for `ROS/src/moveit_msgs/msg/CollisionObject.msg` and `ROS/src/ur10e_rg2_moveit/msg/*` and `ROS/src/ur10e_rg2_moveit/srv/*`.
+6. Repeat the message generation procedure for the following files and directories:
+- `ROS/src/moveit_msgs/msg/CollisionObject.msg` 
+- All message files located in `ROS/src/ur10e_rg2_moveit/msg/*` 
+- All service files located in `ROS/src/ur10e_rg2_moveit/srv/*`
 
-5. Next, the ROS TCP connection needs to be created. Select `Robotics -> ROS Settings` from the top menu bar.
+7. Next, configure the ROS–TCP connection. From the Unity menu bar, select `Robotics -> ROS Settings`.
 
-   In the ROS Settings window, the `ROS IP Address` should be the IP address of your ROS machine
+   In the ROS Settings window, the `ROS IP Address` should be the IP address of the machine running ROS.
 
-   - Find the IP address of your ROS machine. In Ubuntu, open a terminal window, and enter `hostname -I`.
+   - To determine the IP address of the ROS machine, open a terminal on Ubuntu and execute: `hostname -I`.
 
-   - Replace the `ROS IP Address` value with the IP address of your ROS machine. Ensure that the `Host Port` is set to `10000`.
+   - Enter the retrieved IP address into the `ROS IP Address` field and ensure that the `Host Port` is set to `10000`.
 
    ![](Image/2_settings.png)
 
 ## Usage
 **ROS Side** :
-1. Open a new terminal window in the ROS workspace, source the workspace.
+1. Open a new terminal in the ROS workspace and source the workspace environment:
 ```bash
 cd ROS
 source devel/setup.bash
 ```
-2. Then, run the following roslaunch in order to start roscore, set the ROS parameters, start the server endpoint, start the Mover Service node, and launch MoveIt.
+2. Execute the following launch file to initialize the ROS core, set required parameters, start the TCP server endpoint, launch the Mover Service node, and bring up the MoveIt framework:
 ```bash
 roslaunch ur10e_rg2_moveit TrajectoryPlanner.launch
 ```
-3. This launch will print various messages to the console, including the set parameters and the nodes launched. The final two messages should confirm `You can start planning now!` and `Ready to plan`.
+3. The launch process will display status information in the terminal, including initialized nodes and configured parameters. Successful startup is confirmed by the appearance of the messages:
+- `You can start planning now!`
+- `Ready to plan`.
 
 **Unity Side** :
-1. If the PickAndPlaceProject Unity project is not already open, select and open it from the Unity Hub.
-2. Press the Play button at the top of the Unity Editor to enter Play Mode. If everything imported correctly, no errors should appear in the Console window. The robot arm should stay “mounted” to the table, and nothing should fall through the floor.
-3. Press the UI Button Publish to send the joint configurations to ROS, and watch the robot arm pick up and place the cube!
+1. Open the PickAndPlaceProject in Unity via Unity Hub, if it is not already running.
+2. Enter Play Mode by selecting the Play button in the Unity Editor. A successful setup is indicated by the absence of errors in the Console window. The robot arm should remain securely attached to the table, and all objects should interact correctly with the scene environment.
+3. Select the Publish button in the user interface to transmit joint configuration commands to ROS. The robot arm will then execute the planned motion, completing the pick-and-place task.
 
 ## Expected Outcome
 
@@ -135,36 +140,36 @@ roslaunch ur10e_rg2_moveit TrajectoryPlanner.launch
 ## Project Structure
 ```
 ur10e_rg2_PickAndPlace/
-├── ROS/                           # ROS workspace for robot simulation and control
-│   ├── src/                       # Source directory containing ROS packages
-│   │   ├── moveit_msgs            # Messages and services for MoveIt
-│   │   ├── ros_industrial_cmake_boilerplate # CMake utilities for ROS industrial packages
-│   │   ├── ros_tcp_endpoint       # ROS-TCP bridge for Unity integration
-│   │   ├── stomp                  # STOMP motion planner core package
-│   │   ├── stomp_ros              # ROS interface for the STOMP motion planner
-│   │   ├── ur10e_rg2_moveit/      # Custom MoveIt package for UR10e with RG2 gripper
-│   │   │   ├── config/            # Configuration files for MoveIt, planning, and robot setup
-│   │   │   ├── launch/            # Launch files for starting the MoveIt application
-│   │   │   ├── msg/               # Custom messages
-│   │   │   ├── scripts/           # Python scripts for additional utilities
-│   │   │   │   ├── mover.py       # Python scripts for motion planning
-│   │   │   ├── srv/               # Custom services
-│   │   ├── ur10e_rg2_urdf/        # Package containing the URDF and meshes for the robot
-│   │   │   ├── urdf/              # Robot description files in URDF format
-│   │   │   │   ├── ur10e_with_rg2.urdf  # Combined UR10e robot with RG2 gripper model
-│   │   │   ├── meshes/            # Mesh files for robot visualization and collision
-├── UnityProject/                  # Unity project for robot visualization and control
-│   ├── Assets/                    # Main asset folder in Unity
-│   │   ├── Scripts/               # C# scripts for robot control and planning
-│   │   │   ├── SourceDestinationPublisher.cs  # Publishes source and destination coordinates to ROS
-│   │   │   ├── TrajectoryPlanner.cs           # Handles planned trajectory and controls robot
-│   │   ├── URDF/                  # URDF files imported into Unity for robot visualization
-│   │   │   ├── ur10e_with_rg2.urdf  # URDF file for the UR10e robot with RG2 gripper
-│   ├── Library/                   # Unity's library folder (auto-generated, do not edit)
-│   ├── Logs/                      # Unity log files
-│   ├── Packages/                  # Unity project packages
-│   ├── ProjectSettings/           # Unity project settings
-│   ├── UserSettings/              # Unity user-specific settings
-├── README.md                      # Project documentation
-├── Image                          # Image folder for documentation
+├── ROS/                           # ROS workspace for simulation and robot control
+│   ├── src/                       # ROS source workspace
+│   │   ├── moveit_msgs            # MoveIt message and service definitions
+│   │   ├── ros_industrial_cmake_boilerplate # CMake utilities for ROS-Industrial packages
+│   │   ├── ros_tcp_endpoint       # ROS–TCP bridge for Unity communication
+│   │   ├── stomp                  # Core STOMP motion planning package
+│   │   ├── stomp_ros              # ROS interface for STOMP planner
+│   │   ├── ur10e_rg2_moveit/      # Custom MoveIt configuration for UR10e with RG2 gripper
+│   │   │   ├── config/            # MoveIt planning and robot configuration files
+│   │   │   ├── launch/            # Launch files to start MoveIt and planners
+│   │   │   ├── msg/               # Custom ROS message definitions
+│   │   │   ├── scripts/           # Python helper scripts
+│   │   │   │   ├── mover.py       # Motion planning and execution script
+│   │   │   ├── srv/               # Custom ROS service definitions
+│   │   ├── ur10e_rg2_urdf/        # Robot description package
+│   │   │   ├── urdf/              # URDF robot models
+│   │   │   │   ├── ur10e_with_rg2.urdf  # UR10e robot combined with RG2 gripper
+│   │   │   ├── meshes/            # Visual and collision mesh files
+├── UnityProject/                  # Unity project for visualization and control
+│   ├── Assets/                    # Main Unity assets folder
+│   │   ├── Scripts/               # C# scripts for ROS communication and control
+│   │   │   ├── SourceDestinationPublisher.cs  # Publishes pick/place coordinates to ROS
+│   │   │   ├── TrajectoryPlanner.cs           # Receives and executes planned trajectories
+│   │   ├── URDF/                  # URDF files imported into Unity
+│   │   │   ├── ur10e_with_rg2.urdf  # URDF files for the UR10e robot with RG2 gripper
+│   ├── Library/                   # Auto-generated Unity cache (do not edit)
+│   ├── Logs/                      # Unity editor and runtime logs
+│   ├── Packages/                  # Unity package dependencies
+│   ├── ProjectSettings/           # Unity project configuration
+│   ├── UserSettings/              # User-specific Unity settings
+├── README.md                      # Project documentation and setup guide
+├── Image                          # Images used for documentation
 ```
